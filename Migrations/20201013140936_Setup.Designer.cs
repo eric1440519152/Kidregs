@@ -4,14 +4,16 @@ using Kidregs.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kidregs.Migrations
 {
     [DbContext(typeof(KidregsContext))]
-    partial class KidregsContextModelSnapshot : ModelSnapshot
+    [Migration("20201013140936_Setup")]
+    partial class Setup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,11 +23,6 @@ namespace Kidregs.Migrations
 
             modelBuilder.Entity("Kidregs.Models.KidsInfo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("Accommodating")
                         .HasColumnType("nvarchar(max)");
 
@@ -39,7 +36,8 @@ namespace Kidregs.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DadName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("DadPhone")
                         .HasColumnType("nvarchar(max)");
@@ -74,17 +72,24 @@ namespace Kidregs.Migrations
                     b.Property<string>("HomeAddres")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("IndieEat")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("KidBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("KidDomicile")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KidGender")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnName("gender")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("KidHouseholdType")
                         .HasColumnType("nvarchar(max)");
@@ -93,7 +98,8 @@ namespace Kidregs.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KidName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<int>("KidNation")
                         .HasColumnType("int");
@@ -120,7 +126,8 @@ namespace Kidregs.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MunName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("MunPhone")
                         .HasColumnType("nvarchar(max)");
@@ -148,8 +155,6 @@ namespace Kidregs.Migrations
 
                     b.Property<int>("WashHand")
                         .HasColumnType("int");
-
-                    b.HasKey("Id");
 
                     b.ToTable("KidsInfo");
                 });

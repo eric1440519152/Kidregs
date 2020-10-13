@@ -33,19 +33,25 @@ namespace Kidregs.Controllers
                 collection.Add(new KidsInfoViewModel
                 {
                     Id = s.Id,
-                    Birth = s.Birth,
-                    FatherName = s.FatherName,
-                    Gender = (bool)s.Gender ? "男":"女",
-                    IdCard = s.IdCard,
-                    MotherName = s.MotherName,
-                    Name = s.Name
+                    Birth = s.KidBirth,
+                    FatherName = s.DadName,
+                    Gender = s.KidGender,
+                    IdCard = s.KidIdCard,
+                    MotherName = s.MunName,
+                    Name = s.KidName
                 });
             }
-            return View(collection);
+            return View();
         }
 
+        public IActionResult Reg()
+        {
+            return View();
+        }
+        /*
         public async Task<IActionResult> Output(int id)
         {
+            
             var s = _kidregsContext.KidsInfo.First(e => e.Id == id);
             var model = new KidsInfoViewModel
             {
@@ -60,8 +66,9 @@ namespace Kidregs.Controllers
             string template = @"Template\Output.docx";
             var word = await _wordExportService.CreateFromTemplateAsync(template,model);
             return File(word.WordBytes,"application/vnd.openxmlformats-officedocument.wordprocessingml.document",model.Name+"的档案.docx");
+            
         }
-
+        */
         public IActionResult Privacy()
         {
             return View();

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Kidregs.Models;
+using NPOI.Util;
 
-namespace Kidregs.Models
+namespace Kidregs.ViewModels.Home
 {
-    public partial class KidsInfo
+    public class RegViewModel
     {
         public int Id { get; set; }
         public string KidName { get; set; }
@@ -47,5 +51,10 @@ namespace Kidregs.Models
         public string SensibiligenMedicine { get; set; }
         public string Hobbies { get; set; }
         public string Others { get; set; }
+        public List<NationList> NationLists { get; set; }
+        public void From(KidsInfo kids, List<NationList> nations)
+        {
+
+        }
     }
 }

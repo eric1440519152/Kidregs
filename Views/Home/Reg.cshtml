@@ -1,0 +1,632 @@
+﻿@model Kidregs.ViewModels.Home.RegViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_HomeLayout";
+}
+@section PluginsCSS{
+    <!-- Jquery Toast css -->
+    <link href="/libs/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
+    <link href="/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="wrapper" style="padding-top: 70px;">
+    <div class="container-fluid">
+        <!-- sample modal content -->
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">填写须知</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5>重要须知</h5>
+                        <p>您在填写前请仔细阅读以下内容，避免错误操作浪费您的宝贵时间</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                                data-dismiss="modal">
+                            我已仔细阅读
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item">
+                                <a href="javascript: void(0);">
+                                    广西大学附属第二幼儿园
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="javascript: void(0);">
+                                    新生登记报名
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">
+                        新生信息采集页
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!-- Basic Form Wizard -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-box">
+                    <h4 class="header-title"><b>新生基本信息表</b></h4>
+                    <p class="sub-header">
+                        请您认真仔细填写，每次您单击 “下一步” 时，我们会检验您的输入格式是否有误.<br />
+                        <strong>最终提交前，请您核对信息是否有误.在最后一页单击 “提交” 后，您无法再修改信息.</strong>
+                    </p>
+
+                    <form id="basic-form" action="#">
+
+                        <div>
+                            <h3>幼儿基本信息</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="KidName">幼儿姓名 *</label>
+                                            <input class="form-control" asp-for="KidName" id="KidName" name="KidName" type="text"
+                                                   data-parsley-group="section-1"
+                                                   data-parsley-required-message="请输入幼儿姓名" required>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="KidBirth">出生日期 *</label>
+                                            <div class="">
+                                                <input class="form-control" asp-for="KidBirth" type="date" id="KidBirth" name="KidBirth" required
+                                                       data-parsley-group="section-1"
+                                                       data-parsley-required-message="请填写出生日期">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="KidIdCard">身份证号 *</label>
+                                            <div class="">
+                                                <input class="form-control" asp-for="KidIdCard" id="KidIdCard" type="text" name="KidIdCard" required
+                                                       data-parsley-group="section-1" maxlength="18"
+                                                       data-parsley-pattern="[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
+                                                       data-parsley-required-message="请填写身份号码"
+                                                       data-parsley-pattern-message="请输入正确的身份证号码">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="KidNation">民族 *</label>
+                                            <div class="">
+                                                <select class="form-control select2" id="KidNation" required
+                                                        asp-for="KidNation"
+                                                        data-parsley-group="section-1"
+                                                        data-parsley-required-message="请选择民族">
+                                                    <option value="">请选择</option>
+                                                    <option value="汉族">汉族</option>
+                                                    <option value="满族">满族</option>
+                                                    <option value="蒙古族">蒙古族</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label">性别 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" asp-for="KidGender" id="male" value="男"
+                                                           data-parsley-group="section-1" name="KidGender" required
+                                                           checked>
+                                                    <label for="male"> 男 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" asp-for="KidGender" id="female" value="女"
+                                                           data-parsley-group="section-1" name="KidGender">
+                                                    <label for="female"> 女 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">户口性质 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" asp-for="KidHouseholdType" id="feinongye" value="非农业户口"
+                                                           data-parsley-group="section-1" name="HouseholdType"
+                                                           required checked>
+                                                    <label for="feinongye"> 非农业户口 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" asp-for="KidHouseholdType" id="nongye" value="农业户口"
+                                                           data-parsley-group="section-1" name="HouseholdType">
+                                                    <label for="nongye"> 农业户口 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label" for="KidRegRes">户口所在地（户口簿上派出所印章） *</label>
+                                            <input class="form-control" id="KidRegRes" asp-for="KidRegRes" name="KidRegRes" type="text"
+                                                   data-parsley-group="section-1"
+                                                   data-parsley-required-message="请输入户口所在地" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="KidDomicile">户籍所在地（户口簿首页地址） *</label>
+                                            <input class="form-control" id="KidDomicile" asp-for="KidDomicile" name="KidDomicile" type="text"
+                                                   data-parsley-group="section-1"
+                                                   data-parsley-required-message="请输入户籍所在地" required>
+                                        </div>
+
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">(*) 必填</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </section>
+                            <h3>家庭信息</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="DadName">父亲姓名 *</label>
+                                            <input class="form-control" id="DadName" asp-for="DadName" name="DadName" type="text"
+                                                   data-parsley-group="section-2"
+                                                   data-parsley-required-message="请输入父亲姓名" required>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="DadWorkRes">父亲工作单位 *</label>
+                                            <div class="">
+                                                <input class="form-control" type="text" id="DadWorkRes" asp-for="DadWorkRes" name="DadWorkRes"
+                                                       required data-parsley-group="section-2"
+                                                       data-parsley-required-message="请填写工作单位">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="DadPhone">父亲联系电话 *</label>
+                                            <div class="">
+                                                <input class="form-control" type="phone" asp-for="DadPhone" name="DadPhone" id="DadPhone"
+                                                       required data-parsley-group="section-2"
+                                                       data-parsley-required-message="请填写父亲联系电话">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="DadIdCard">父亲身份证号 *</label>
+                                            <div class="">
+                                                <input class="form-control" type="text" id="DadIdCard" asp-for="DadIdCard" name="DadIdCard" required
+                                                       data-parsley-group="section-2" maxlength="18"
+                                                       data-parsley-pattern="[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
+                                                       data-parsley-required-message="请填写身份号码"
+                                                       data-parsley-pattern-message="请输入正确的身份证号码">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label" for="MunName">母亲姓名 *</label>
+                                            <input class="form-control" id="MunName" asp-for="MunName" name="MunName" type="text"
+                                                   data-parsley-group="section-2"
+                                                   data-parsley-required-message="请输入母亲姓名" required>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="MunWorkRes">母亲工作单位 *</label>
+                                            <div class="">
+                                                <input class="form-control" type="text" asp-for="MunWorkRes" id="MunWorkRes" name="MunWorkRes"
+                                                       required data-parsley-group="section-2"
+                                                       data-parsley-required-message="请填写工作单位">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="MunPhone">母亲联系电话 *</label>
+                                            <div class="">
+                                                <input class="form-control" type="phone" id="MunPhone" asp-for="MunPhone" name="MunPhone"
+                                                       required data-parsley-group="section-2"
+                                                       data-parsley-required-message="请填写母亲联系电话">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="MunIdCard">母亲身份证号 *</label>
+                                            <div class="">
+                                                <input class="form-control" type="text" asp-for="MunIdCard" id="MunIdCard" name="MunIdCard" required
+                                                       data-parsley-group="section-2" maxlength="18"
+                                                       data-parsley-pattern="[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
+                                                       data-parsley-required-message="请填写身份号码"
+                                                       data-parsley-pattern-message="请输入正确的身份证号码">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label" for="HomeAddres">家庭住址 *</label>
+                                            <input class="form-control" id="HomeAddres" asp-for="HomeAddres" name="HomeAddres" type="text"
+                                                   data-parsley-group="section-2"
+                                                   data-parsley-required-message="请输入家庭住址" required>
+                                        </div>
+                                        <div class="alert alert-primary bg-primary text-white border-0 alert-dismissible fade show"
+                                             role="alert">
+                                            如果报读幼童为西大在编祖辈的孙辈，则以下信息必填，否则以下信息不是必须的
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="GrandName">祖辈姓名 ※</label>
+                                            <input class="form-control" id="GrandName" asp-for="GrandName" name="GrandName" type="text"
+                                                   data-parsley-group="section-2"
+                                                   data-parsley-required-message="请输入幼儿姓名" required>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="GrandWorkRes">祖辈工作单位 ※</label>
+                                            <div class="">
+                                                <input class="form-control" type="text" asp-for="GrandWorkRes" id="GrandWorkRes" name="GrandWorkRes"
+                                                       required data-parsley-group="section-2"
+                                                       data-parsley-required-message="请填写祖辈工作单位">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="GrandPhone">祖辈联系电话 ※</label>
+                                            <div class="">
+                                                <input class="form-control" type="phone" id="GrandPhone" asp-for="GrandPhone" name="GrandPhone"
+                                                       required data-parsley-group="section-2"
+                                                       data-parsley-required-message="请填写联系电话">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">(*) 必填 (※)在编祖辈孙辈入学必填</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </section>
+                            <h3>幼儿生活、健康情况调查</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">是否爱提问 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="LikeAskY" asp-for="LikeAsk" value="是"
+                                                           data-parsley-group="section-3" name="LikeAsk" required
+                                                           checked>
+                                                    <label for="LikeAskY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="LikeAskN" asp-for="LikeAsk" value="否"
+                                                           data-parsley-group="section-3" name="LikeAsk">
+                                                    <label for="LikeAskN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">是否独立饮食 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="IndieEatY" value="是"
+                                                           data-parsley-group="section-3" asp-for="IndieEat" name="IndieEat" required
+                                                           checked>
+                                                    <label for="IndieEatY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="IndieEatN" asp-for="IndieEat" value="否"
+                                                           data-parsley-group="section-3" name="IndieEat">
+                                                    <label for="IndieEatN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label">是否喜欢与同伴一起玩 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="LikePlayY" value="是"
+                                                           data-parsley-group="section-3" asp-for="LikePlay" name="LikePlay" required
+                                                           checked>
+                                                    <label for="LikePlayY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="LikePlayN" value="否"
+                                                           data-parsley-group="section-3" asp-for="LikePlay" name="LikePlay">
+                                                    <label for="LikePlayN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label" >是否喜欢与父母、他人交流 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="LikeCommY" value="是"
+                                                           data-parsley-group="section-3" name="LikeComm" required
+                                                           checked>
+                                                    <label for="inlineRadio1"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="LikeCommN" value="否"
+                                                           data-parsley-group="section-3" name="LikeComm">
+                                                    <label for="inlineRadio2"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group clearfix">
+                                            <label class="control-label">是否爱看图书 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="male" value="是"
+                                                           data-parsley-group="section-3" id="LikeReadY" asp-for="LikeRead" name="LikeRead" required
+                                                           checked>
+                                                    <label for="LikeReadY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="female" value="否"
+                                                           data-parsley-group="section-3" id="LikeReadN" asp-for="LikeRead" name="LikeRead">
+                                                    <label for="LikeReadN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">是否有午睡的习惯 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="NapY" asp-for="Nap" value="是"
+                                                           data-parsley-group="section-3" name="Nap" required
+                                                           checked>
+                                                    <label for="NapY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="NapN" value="否"
+                                                           data-parsley-group="section-3" asp-for="Nap" name="Nap">
+                                                    <label for="NapN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">是否独立解大便 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="DefecateY" value="是"
+                                                           data-parsley-group="section-3" asp-for="Defecate" name="Defecate" required
+                                                           checked>
+                                                    <label for="DefecateY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="DefecateN" value="否"
+                                                           data-parsley-group="section-3" asp-for="Defecate" name="Defecate">
+                                                    <label for="DefecateN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">是否有每天刷牙习惯 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="BrushTeethY" value="是"
+                                                           data-parsley-group="section-3" asp-for="BrushTeeth" name="BrushTeeth" required
+                                                           checked>
+                                                    <label for="BrushTeethY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="BrushTeethN" value="否"
+                                                           data-parsley-group="section-3"  asp-for="BrushTeeth" name="BrushTeeth">
+                                                    <label for="BrushTeethN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " for="password">是否喜欢帮助大人做力所能及的事 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="AccommodatingY" value="是"
+                                                           data-parsley-group="section-3" asp-for="Accommodating" name="Accommodating" required
+                                                           checked>
+                                                    <label for="AccommodatingY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="AccommodatingN" value="否"
+                                                           data-parsley-group="section-3" asp-for="Accommodating" name="Accommodating">
+                                                    <label for="AccommodatingN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label">是否有勤洗手的习惯 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="WashHandY" value="是"
+                                                           data-parsley-group="section-3" asp-for="WashHand" name="WashHand" required
+                                                           checked>
+                                                    <label for="WashHandY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="WashHandN" value="否"
+                                                           data-parsley-group="section-3" asp-for="WashHand" name="WashHand">
+                                                    <label for="WashHandN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label " >是否独立穿衣服 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="DressY" value="是"
+                                                           data-parsley-group="section-3" asp-for="Dress" name="Dress" required
+                                                           checked>
+                                                    <label for="DressY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="DressN" value="否"
+                                                           data-parsley-group="section-3" asp-for="Dress" name="Dress">
+                                                    <label for="DressN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="control-label ">是否独立解小便 *</label>
+                                            <div class="">
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="UrinateY" value="是"
+                                                           data-parsley-group="section-3" asp-for="Urinate" name="Urinate" required
+                                                           checked>
+                                                    <label for="UrinateY"> 是 </label>
+                                                </div>
+                                                <div class="radio radio-danger form-check-inline">
+                                                    <input type="radio" id="UrinateN" value="否"
+                                                           data-parsley-group="section-3" asp-for="Urinate" name="Urinate">
+                                                    <label for="UrinateN"> 否 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label" for="GetUpTime">早上起床时间 *</label>
+                                            <div class="input-group">
+                                                <input id="GetUpTime" asp-for="GetUpTime" id="GetUpTime" type="time" class="form-control">
+                                            </div><!-- input-group -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="userName">晚上睡觉时间 *</label>
+                                            <div class="input-group">
+                                                <input id="SleepTime" asp-for="SleepTime" id="GetUpTime" type="time" class="form-control">
+                                            </div><!-- input-group -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="LikeFood">爱吃何种食物 *</label>
+                                            <input class="form-control" id="LikeFood" asp-for="LikeFood" name="LikeFood" type="text"
+                                                   data-parsley-group="section-3"
+                                                   data-parsley-required-message="该字段是必填项" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="Case">有何病史 *</label>
+                                            <input class="form-control" id="Case" asp-for="Case" name="Case" type="text"
+                                                   data-parsley-group="section-3"
+                                                   data-parsley-required-message="该字段是必填项" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label" for="MealLength">一餐大致需要多长时间 *</label>
+                                            <input class="form-control" id="MealLength" asp-for="MealLength" name="MealLength" type="text"
+                                                   data-parsley-group="section-3"
+                                                   data-parsley-required-message="该字段是必填项" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="SensibiligenFood">有何过敏性食物 *</label>
+                                            <input class="form-control" id="SensibiligenFood" asp-for="SensibiligenFood" name="SensibiligenFood" type="text"
+                                                   data-parsley-group="section-3"
+                                                   data-parsley-required-message="该字段是必填项" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="Fever">是否有高烧抽搐史（几度） *</label>
+                                            <input class="form-control" id="Fever" name="Fever" asp-for="Fever" type="text"
+                                                   data-parsley-group="section-3"
+                                                   data-parsley-required-message="该字段是必填项" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="SensibiligenMedicine">有何药物过敏 *</label>
+                                            <input class="form-control" id="SensibiligenMedicine" asp-for="SensibiligenMedicine" name="SensibiligenMedicine" type="text"
+                                                   data-parsley-group="section-3"
+                                                   data-parsley-required-message="该字段是必填项" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Hobbies">在家时兴趣爱好有哪些 *</label>
+                                            <div class="tags-default">
+                                                <input type="text" id="Hobbies" asp-for="Hobbies" name="Hobbies" value="样例标签1（请删除）,样例标签2（请删除）" data-role="tagsinput" placeholder="每项输入用回车分隔" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </section>
+                            <h3>其他情况</h3>
+                            <section>
+                                <div class="form-group clearfix">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Others">您需要说明的特殊情况</label>
+                                            <textarea class="form-control" id="Others" name="Others" asp-for="Others" rows="5"></textarea>
+                                        </div>
+
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="checkbox-h" type="checkbox">
+                                            <label for="checkbox-h">
+                                                我已确认以上信息正确无误（提交后无法修改，请您务必仔细核对）
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+</div>
+
+@section PluginsJS
+{
+    <!-- Plugin js-->
+    <script src="/libs/parsleyjs/parsley.min.js"></script>
+    <script src="/libs/select2/select2.min.js"></script>
+    <script src="/libs/jquery-toast/jquery.toast.min.js"></script>
+    <script src="/libs/jquery-steps/jquery.steps.min.js"></script>
+    <script src="/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="/libs/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+}
+@section InitJS
+{
+    <!-- Init js-->
+    <script src="/js/pages/form-validation.init.js"></script>
+    <script src="/js/pages/wizard-init.js"></script>
+    <script src="/js/pages/form-advanced.init.js"></script>
+    <script src="/js/pages/toastr.init.js"></script>
+    <script src="/js/pages/form-pickers.init.js"></script>
+}
+@section CustomizeJS
+{
+
+    <script type="text/javascript">
+        $(function () {
+            $('#myModal').modal();
+        });
+    </script>
+
+    <style type="text/css">
+        .parsley-errors-list > li {
+            list-style: none;
+            color: #f36270;
+            margin-top: 5px;
+            padding-left: 20px !important;
+            position: relative;
+        }
+
+        .parsley-error {
+            border-color: #f36270 !important;
+        }
+
+        .wizard > .steps .error a,
+        .wizard > .steps .error a:active,
+        .wizard > .steps .error a:hover {
+            background: #f36270;
+            color: #fff;
+            border-color: #fde7e9;
+        }
+    </style>
+}

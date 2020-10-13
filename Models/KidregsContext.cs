@@ -24,36 +24,9 @@ namespace Kidregs.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<KidsInfo>(entity =>
-            {
-                entity.HasNoKey();
+            modelBuilder.Entity<NationList>();
 
-                entity.Property(e => e.Birth)
-                    .HasColumnName("birth")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.FatherName)
-                    .HasColumnName("father_name")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Gender).HasColumnName("gender");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.IdCard)
-                    .HasColumnName("IdCard")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.MotherName)
-                    .HasColumnName("mother_name")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(50);
-            });
+            modelBuilder.Entity<KidsInfo>();
 
             OnModelCreatingPartial(modelBuilder);
         }
