@@ -11,5 +11,5 @@ $("#basic-form")
       hideAfter: 4e3,
       stack: 1,
     });
-    console.log(this.$element);
+    //console.log(this.$element);
   });

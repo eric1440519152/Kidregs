@@ -35,6 +35,12 @@ namespace Kidregs
                 options.UseSqlServer(Configuration.GetSection("Kidregs:connectString").Value);
             });
 
+            services.AddAntiforgery(options =>
+            {
+                options.FormFieldName = "AntiforgeryField";
+                options.HeaderName = "VerificationToken";
+            });
+
             //◊¢»ÎOffice…˙≥…“¿¿µ
             services.AddEasyOffice(new OfficeOptions());
         }

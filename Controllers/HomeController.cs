@@ -41,12 +41,37 @@ namespace Kidregs.Controllers
                     Name = s.KidName
                 });
             }
-            return View();
+            return View(collection);
         }
 
         public IActionResult Reg()
         {
-            return View();
+            var nationLists = _kidregsContext.NationList.ToList();
+            return View(new RegViewModel{NationLists = nationLists});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegInfo(RegViewModel kidsInfo)
+        {
+
+            if (ModelState.IsValid)
+            {
+                int isRegistered =  _kidregsContext.KidsInfo.Where(e => e.KidIdCard == kidsInfo.KidIdCard).Count();
+                if (isRegistered != 0)
+                {
+                    Response.StatusCode = 404;
+                    return Content("记录已经存在，请勿重复提交");
+                }
+                else
+                {
+                    _kidregsContext.KidsInfo.Add(kidsInfo.To());
+                    await _kidregsContext.SaveChangesAsync();
+                }
+                
+            }
+            return Content(ModelState.IsValid.ToString());
+            //return View();
         }
         /*
         public async Task<IActionResult> Output(int id)

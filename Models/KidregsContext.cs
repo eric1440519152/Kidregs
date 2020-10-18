@@ -16,6 +16,7 @@ namespace Kidregs.Models
         }
 
         public virtual DbSet<KidsInfo> KidsInfo { get; set; }
+        public virtual DbSet<NationList> NationList { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

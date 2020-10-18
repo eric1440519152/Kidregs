@@ -9,7 +9,7 @@ namespace Kidregs.Models
         public string KidName { get; set; }
         public string KidIdCard { get; set; }
         public string KidGender { get; set; }
-        public int KidNation { get; set; }
+        public string KidNation { get; set; }
         public string KidHouseholdType { get; set; }
         public string KidRegRes { get; set; }
         public string KidDomicile { get; set; }
@@ -32,7 +32,7 @@ namespace Kidregs.Models
         public string LikeRead { get; set; }
         public string Nap { get; set; }
         public string Accommodating { get; set; }
-        public int WashHand { get; set; }
+        public string WashHand { get; set; }
         public string Dress { get; set; }
         public string Defecate { get; set; }
         public string BrushTeeth { get; set; }
