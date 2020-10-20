@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Kidregs.Libraries.Interface;
 
-namespace Kidregs.Models
+namespace Kidregs.Libraries.Class
 {
-    public class System
+    public class SystemOptions:ISystemOptions
     {
         //站点名称
         public int SiteName { get; set; }
@@ -20,5 +21,7 @@ namespace Kidregs.Models
         //reCAPTCHA
         public string reCAPTCHA_Secret { get; set; }
         public bool RegSwitch { get; set; }
+        public void UpdateOptions();
+        public void GetOptions();
     }
 }

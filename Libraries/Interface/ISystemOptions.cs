@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kidregs.Models
+namespace Kidregs.Libraries.Interface
 {
-    public class System
+    interface ISystemOptions
     {
         //站点名称
         public int SiteName { get; set; }
@@ -20,5 +20,7 @@ namespace Kidregs.Models
         //reCAPTCHA
         public string reCAPTCHA_Secret { get; set; }
         public bool RegSwitch { get; set; }
+        public void UpdateOptions();
+        public void GetOptions();
     }
 }

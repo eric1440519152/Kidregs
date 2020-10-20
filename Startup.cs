@@ -83,8 +83,8 @@ namespace Kidregs
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 
-                options.LoginPath = "/Account/Index";
-                options.AccessDeniedPath = "/Account/Index";
+                options.LoginPath = "/Admin/Login";
+                options.AccessDeniedPath = "/Admin/Login";
                 options.SlidingExpiration = true;
             });
 

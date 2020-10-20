@@ -8,5 +8,6 @@ namespace Kidregs
     public class KidregsOptions
     {
         public string ConnectString { get; set; }
+        public string SuperPassword { get; set; }
     }
 }
