@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -17,6 +18,7 @@ namespace Kidregs.Models
 
         public virtual DbSet<KidsInfo> KidsInfo { get; set; }
         public virtual DbSet<NationList> NationList { get; set; }
+        public virtual DbSet<System> System { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,6 +30,11 @@ namespace Kidregs.Models
             modelBuilder.Entity<NationList>();
 
             modelBuilder.Entity<KidsInfo>();
+
+            modelBuilder.Entity<System>(entity =>
+            {
+                entity.HasNoKey();
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }

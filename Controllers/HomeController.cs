@@ -44,10 +44,12 @@ namespace Kidregs.Controllers
             return View(collection);
         }
 
-        public IActionResult Reg()
+        public IActionResult Reg(RegViewModel regView)
         {
             var nationLists = _kidregsContext.NationList.ToList();
-            return View(new RegViewModel{NationLists = nationLists});
+            ViewBag.nationLists = nationLists;
+
+            return View(regView);
         }
 
         [HttpPost]
@@ -58,20 +60,20 @@ namespace Kidregs.Controllers
             if (ModelState.IsValid)
             {
                 int isRegistered =  _kidregsContext.KidsInfo.Where(e => e.KidIdCard == kidsInfo.KidIdCard).Count();
-                if (isRegistered != 0)
-                {
-                    Response.StatusCode = 404;
-                    return Content("记录已经存在，请勿重复提交");
-                }
-                else
+                //return Content(isRegistered.ToString());
+                if (isRegistered == 0)
                 {
                     _kidregsContext.KidsInfo.Add(kidsInfo.To());
                     await _kidregsContext.SaveChangesAsync();
+                    return View("Submitted");
                 }
-                
+
             }
-            return Content(ModelState.IsValid.ToString());
-            //return View();
+
+            return RedirectToAction(nameof(Reg), new RegViewModel
+            {
+                errMessage = "您的信息非法或该身份证号已被登记，请您核对后再提交"
+            });
         }
         /*
         public async Task<IActionResult> Output(int id)
@@ -94,10 +96,6 @@ namespace Kidregs.Controllers
             
         }
         */
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

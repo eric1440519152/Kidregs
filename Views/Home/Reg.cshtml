@@ -9,6 +9,7 @@
     <link href="/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
     <link href="/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="wrapper" style="padding-top: 70px;">
@@ -61,6 +62,9 @@
         </div>
         <!-- end page title -->
         <!-- Basic Form Wizard -->
+        <div hidden="hidden" id="errString">
+            @Model.errMessage
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card-box">
@@ -95,7 +99,7 @@
                                         <div class="form-group clearfix">
                                             <label class="control-label " for="KidIdCard">身份证号 *</label>
                                             <div class="">
-                                                <input class="form-control"  asp-for="KidIdCard" data-parsley-remote="@Url.Action("ValidIdCard","Valid")" id="KidIdCard" type="text" name="KidIdCard" required
+                                                <input class="form-control" asp-for="KidIdCard" data-parsley-remote="@Url.Action("ValidIdCard","Valid")" id="KidIdCard" type="text" name="KidIdCard" required
                                                        data-parsley-group="section-0" maxlength="18"
                                                        data-parsley-pattern="[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
                                                        data-parsley-required-message="请填写身份号码"
@@ -113,7 +117,7 @@
                                                         data-parsley-group="section-0"
                                                         data-parsley-required-message="请选择民族">
                                                     <option value="">请选择</option>
-                                                    @foreach (var unit in Model.NationLists)
+                                                    @foreach (var unit in ViewBag.nationLists)
                                                     {
                                                         <option value="@unit.Nation">@unit.Nation</option>
                                                     }
@@ -501,13 +505,13 @@
                                         <div class="form-group">
                                             <label class="control-label" for="GetUpTime">早上起床时间 *</label>
                                             <div class="input-group">
-                                                <input id="GetUpTime" asp-for="GetUpTime" id="GetUpTime" type="time" class="form-control">
+                                                <input id="GetUpTime" asp-for="GetUpTime" id="GetUpTime" type="time" data-parsley-required-message="该字段是必填项" class="form-control" required>
                                             </div><!-- input-group -->
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="SleepTime">晚上睡觉时间 *</label>
                                             <div class="input-group">
-                                                <input id="SleepTime" asp-for="SleepTime" id="GetUpTime" type="time" class="form-control">
+                                                <input id="SleepTime" asp-for="SleepTime" id="GetUpTime" type="time" data-parsley-required-message="该字段是必填项" class="form-control" required>
                                             </div><!-- input-group -->
                                         </div>
                                         <div class="form-group">
@@ -597,6 +601,7 @@
     <script src="/libs/jquery-steps/jquery.steps.min.js"></script>
     <script src="/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
     <script src="/libs/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="/libs/sweetalert2/sweetalert2.min.js"></script>
 }
 @section InitJS
 {
@@ -609,13 +614,30 @@
 }
 @section CustomizeJS
 {
-
-    <script type="text/javascript">
-        $(function () {
-            $('#myModal').modal();
-        });
-    </script>
-
+    @if (Model.errMessage != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                Swal.fire({
+                    title: "遇到错误!",
+                    text: $("#errString").text(),
+                    type: "error",
+                    confirmButtonText: "我知道了",
+                    confirmButtonClass: "btn btn-confirm mt-2",
+                });
+            });
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            $(function () {
+                $('#myModal').modal();
+            });
+        </script>
+    }
+}
+@section CustomizeCSS{
     <style type="text/css">
         .parsley-errors-list > li {
             list-style: none;

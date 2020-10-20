@@ -97,8 +97,8 @@ namespace Kidregs.ViewModels.Home
         [Required]
         public string Hobbies { get; set; }
         public string Others { get; set; }
-        public List<NationList> NationLists { get; set; }
-        public void From(KidsInfo kids, List<NationList> nations)
+        public string errMessage { get; set; }
+        public void From(KidsInfo kids)
         {
             Id = kids.Id;
             KidName = kids.KidName;
@@ -142,7 +142,6 @@ namespace Kidregs.ViewModels.Home
             SensibiligenMedicine = kids.SensibiligenMedicine;
             Hobbies = kids.Hobbies;
             Others = kids.Others;
-            NationLists = nations;
         }
 
         public KidsInfo To()

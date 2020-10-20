@@ -4,14 +4,16 @@ using Kidregs.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kidregs.Migrations
 {
     [DbContext(typeof(KidregsContext))]
-    partial class KidregsContextModelSnapshot : ModelSnapshot
+    [Migration("20201019160605_System")]
+    partial class System
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

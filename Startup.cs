@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Kidregs.Models;
 using EasyOffice;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Kidregs
 {
@@ -35,10 +37,55 @@ namespace Kidregs
                 options.UseSqlServer(Configuration.GetSection("Kidregs:connectString").Value);
             });
 
+            services.AddDbContext<IdentityDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetSection("Kidregs:connectString").Value, b => b.MigrationsAssembly("Kidregs"));
+
+            });
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<IdentityDbContext>();
+
             services.AddAntiforgery(options =>
             {
                 options.FormFieldName = "AntiforgeryField";
                 options.HeaderName = "VerificationToken";
+            });
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // 密码设置
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+
+                // 锁定设置
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Lockout.MaxFailedAccessAttempts = 2;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // 用户设置
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+                
+                //设置不需要账户确认
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie设置
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+
+                options.LoginPath = "/Account/Index";
+                options.AccessDeniedPath = "/Account/Index";
+                options.SlidingExpiration = true;
             });
 
             //注入Office生成依赖
