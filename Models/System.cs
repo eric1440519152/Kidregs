@@ -8,7 +8,7 @@ namespace Kidregs.Models
     public class System
     {
         //站点名称
-        public int SiteName { get; set; }
+        public string SiteName { get; set; }
         //注册界面提示
         public string WelcomeMessage { get;set; }
         //版权信息文本

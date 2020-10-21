@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Kidregs.Models;
 using EasyOffice;
+using Kidregs.Libraries.Class;
+using Kidregs.Libraries.Interface;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -88,6 +90,8 @@ namespace Kidregs
                 options.SlidingExpiration = true;
             });
 
+            //注入系统设置
+            services.AddScoped<ISystemOptions, SystemOptions>();
             //注入Office生成依赖
             services.AddEasyOffice(new OfficeOptions());
         }

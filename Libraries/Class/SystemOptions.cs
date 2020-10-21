@@ -3,13 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kidregs.Libraries.Interface;
+using Kidregs.Models;
+using Microsoft.EntityFrameworkCore;
+using System = Kidregs.Models.System;
 
 namespace Kidregs.Libraries.Class
 {
     public class SystemOptions:ISystemOptions
     {
+        private readonly KidregsContext _kidregsContext;
+        private Models.System System { get; set; }
+
+        public SystemOptions(KidregsContext kidregsContext)
+        {
+            _kidregsContext = kidregsContext;
+            System = _kidregsContext.System.First();
+            SiteName = System.SiteName;
+            WelcomeMessage = System.WelcomeMessage;
+            CopyrightMessage = System.CopyrightMessage;
+            Domain = System.Domain;
+            reCAPTCHA_AppId = System.reCAPTCHA_AppId;
+            reCAPTCHA_Secret = System.reCAPTCHA_Secret;
+            RegSwitch = System.RegSwitch;
+        }
         //站点名称
-        public int SiteName { get; set; }
+        public string SiteName { get; set; }
         //注册界面提示
         public string WelcomeMessage { get;set; }
         //版权信息文本
@@ -21,7 +39,29 @@ namespace Kidregs.Libraries.Class
         //reCAPTCHA
         public string reCAPTCHA_Secret { get; set; }
         public bool RegSwitch { get; set; }
-        public void UpdateOptions();
-        public void GetOptions();
+
+        public void UpdateOptions()
+        {
+            System.SiteName = SiteName;
+            System.WelcomeMessage = WelcomeMessage;
+            System.CopyrightMessage = CopyrightMessage;
+            System.Domain = Domain;
+            System.RegSwitch = RegSwitch;
+            System.reCAPTCHA_AppId = reCAPTCHA_AppId;
+            System.reCAPTCHA_Secret = reCAPTCHA_Secret;
+            _kidregsContext.SaveChanges();
+        }
+
+        public void GetOptions()
+        {
+            System = _kidregsContext.System.First();
+            SiteName = System.SiteName;
+            WelcomeMessage = System.WelcomeMessage;
+            CopyrightMessage = System.CopyrightMessage;
+            Domain = System.Domain;
+            reCAPTCHA_AppId = System.reCAPTCHA_AppId;
+            reCAPTCHA_Secret = System.reCAPTCHA_Secret;
+            RegSwitch = System.RegSwitch;
+        }
     }
 }
