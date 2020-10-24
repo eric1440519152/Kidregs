@@ -39,7 +39,7 @@
 
                             </div>
 
-                            <form asp-action="Login">
+                            <form id="LoginForm" name="LoginForm" asp-action="Login">
 
                                 <div class="form-group mb-3">
                                     <label for="username">用户名</label>
@@ -52,16 +52,28 @@
                                     <label for="password">密码</label>
                                     <input class="form-control" type="password" asp-for="Password" required id="password" name="password" placeholder="请输入您的管理员密码">
                                 </div>
-
+                                @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+                                {
+                                    <div class="form-group">
+                                        <input id="reCAPTCHA_Token" asp-for="reCAPTCHA_Token" name="reCAPTCHA_Token" hidden required/>
+                                    </div>
+                                }
                                 <div class="form-group mb-3">
                                     <div class="custom-control custom-checkbox checkbox-success">
-                                        <input type="checkbox" asp-for="Remember" class="custom-control-input" id="remember" name="remember" checked>
+                                        <input type="checkbox" asp-for="Remember" class="custom-control-input" id="Remember" name="Remember">
                                         <label class="custom-control-label" for="remember">记住我</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group mb-0 text-center">
-                                    <button class="btn btn-gradient btn-block" type="submit"> 登 陆 </button>
+                                    @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+                                    {
+                                        <button class="btn btn-gradient btn-block g-recaptcha" data-callback="reCaptchaCallback" data-sitekey="@ViewBag.SystemOptions.reCAPTCHA_AppId"> 登 陆 </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-gradient btn-block"  type="submit"> 登 陆 </button>
+                                    }
                                 </div>
 
                             </form>
@@ -90,5 +102,16 @@
     <!-- App js -->
     <script src="/js/app.min.js"></script>
 
+    @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+    {
+        <script src="https://@ViewBag.SystemOptions.reCAPTCHA_ServerUrl/recaptcha/api.js"></script>
+        <script>
+            //谷歌验证码回调函数
+            function reCaptchaCallback(token) {
+                $("#reCAPTCHA_Token").val(token);
+                $("#LoginForm").submit();
+            }
+        </script>
+    }
 </body>
 </html>

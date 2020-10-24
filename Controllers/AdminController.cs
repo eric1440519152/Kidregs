@@ -51,6 +51,7 @@ namespace Kidregs.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(reCaptchaValid))]
         public IActionResult Login(LoginViewModel login)
         {
             if (login.Remember)
