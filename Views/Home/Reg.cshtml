@@ -1,6 +1,6 @@
 ﻿@model Kidregs.ViewModels.Home.RegViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "登记信息";
     Layout = "_HomeLayout";
 }
 @section PluginsCSS{
@@ -44,7 +44,7 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item">
                                 <a href="javascript: void(0);">
-                                    广西大学附属第二幼儿园
+                                    @ViewBag.SystemOptions.SiteName
                                 </a>
                             </li>
                             <li class="breadcrumb-item active">
@@ -65,6 +65,7 @@
         <div hidden="hidden" id="errString">
             @Model.errMessage
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card-box">
@@ -99,7 +100,7 @@
                                         <div class="form-group clearfix">
                                             <label class="control-label " for="KidIdCard">身份证号 *</label>
                                             <div class="">
-                                                <input class="form-control" asp-for="KidIdCard" data-parsley-remote="@Url.Action("ValidIdCard","Valid")" id="KidIdCard" type="text" name="KidIdCard" required
+                                                <input class="form-control" asp-for="KidIdCard" data-parsley-remote="@Url.Action("ValidIdCard", "Valid")" id="KidIdCard" type="text" name="KidIdCard" required
                                                        data-parsley-group="section-0" maxlength="18"
                                                        data-parsley-pattern="[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
                                                        data-parsley-required-message="请填写身份号码"
@@ -557,7 +558,7 @@
                                         <div class="form-group">
                                             <label class="control-label" for="Hobbies">在家时兴趣爱好有哪些 *</label>
                                             <div class="tags-default">
-                                                <input type="text" id="Hobbies" asp-for="Hobbies" name="Hobbies" value="样例标签1（请删除）,样例标签2（请删除）" data-role="tagsinput" placeholder="每项输入用回车分隔" />
+                                                <input type="text" id="Hobbies" data-parsley-group="section-2" asp-for="Hobbies" data-parsley-required-message="该字段是必填项" name="Hobbies" value="样例标签1（请删除）,样例标签2（请删除）" data-role="tagsinput" placeholder="每项输入用回车分隔" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -579,9 +580,19 @@
                                                 我已确认以上信息正确无误（提交后无法修改，请您务必仔细核对）
                                             </label>
                                         </div>
+
+                                        @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+                                        {
+                                            <div class="form-group">
+                                                <label class="control-label" for="Others">请您单击完成人机验证</label>
+                                                <div class="g-recaptcha" data-sitekey="@ViewBag.SystemOptions.reCAPTCHA_AppId" data-callback="reCaptchaCallback"></div>
+                                                <input id="reCAPTCHA_Token" asp-for="reCAPTCHA_Token" data-parsley-group="section-3" name="reCAPTCHA_Token" data-parsley-required-message="请您单击完成人机验证" hidden required/>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </section>
+
                         </div>
                     </form>
 
@@ -602,6 +613,10 @@
     <script src="/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
     <script src="/libs/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
     <script src="/libs/sweetalert2/sweetalert2.min.js"></script>
+    @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+    {
+        <script src="https://@ViewBag.SystemOptions.reCAPTCHA_ServerUrl/recaptcha/api.js"></script>
+    }
 }
 @section InitJS
 {
@@ -614,6 +629,17 @@
 }
 @section CustomizeJS
 {
+
+    @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+    {
+        <script>
+            //谷歌验证码回调函数
+            function reCaptchaCallback(token) {
+                $("#reCAPTCHA_Token").val(token);
+            }
+        </script>
+    }
+
     @if (Model.errMessage != null)
     {
         <script type="text/javascript">

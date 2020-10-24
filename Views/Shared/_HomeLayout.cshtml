@@ -1,4 +1,5 @@
 ﻿@using Microsoft.EntityFrameworkCore.Storage
+@using Kidregs.Libraries.Class
 <!DOCTYPE html>
 <html lang="cn">
 
@@ -10,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="/images/favicon.ico">
-    <title>@ViewData["Title"] - Kidregs</title>
+    <title>@ViewData["Title"] - @ViewBag.SystemOptions.SiteName</title>
 
     @RenderSection("PluginsCSS")
 
@@ -74,10 +75,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    2020 &copy; Abstack theme by
-                    <a href="">
-                        Coderthemes
-                    </a>
+                    @ViewBag.SystemOptions.CopyrightMessage
                 </div>
             </div>
         </div>

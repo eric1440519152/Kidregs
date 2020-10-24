@@ -1,8 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@model Kidregs.ViewModels.Admin.LoginViewModel
+@{
+    ViewData["Title"] = "管理员登录";
+}
+<!DOCTYPE html>
 <html lang="cn">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] - @ViewData["SiteName"]</title>
+    <title>@ViewData["Title"] - @ViewBag.SystemOptions.SiteName</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="广西大学第二附属幼儿园" name="description" />
     <meta content="Coderthemes" name="author" />
@@ -35,24 +39,24 @@
 
                             </div>
 
-                            <form action="mt-3">
+                            <form asp-action="Login">
 
                                 <div class="form-group mb-3">
-                                    <label for="emailaddress">用户名</label>
-                                    <input class="form-control" type="email" id="emailaddress" required="" placeholder="请输入您的管理员用户名">
+                                    <label for="username">用户名</label>
+                                    <input class="form-control" type="text" asp-for="Username" id="username" name="username" required placeholder="请输入您的管理员用户名">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <a href="page-recoverpw.html" class="text-muted float-right"><small>忘记密码？</small></a>
+                                    <a href="@Url.Action("Reset")" class="text-muted float-right"><small>忘记密码？</small></a>
 
                                     <label for="password">密码</label>
-                                    <input class="form-control" type="password" required="" id="password" placeholder="请输入您的管理员密码">
+                                    <input class="form-control" type="password" asp-for="Password" required id="password" name="password" placeholder="请输入您的管理员密码">
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <div class="custom-control custom-checkbox checkbox-success">
-                                        <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked>
-                                        <label class="custom-control-label" for="checkbox-signin">记住我</label>
+                                        <input type="checkbox" asp-for="Remember" class="custom-control-input" id="remember" name="remember" checked>
+                                        <label class="custom-control-label" for="remember">记住我</label>
                                     </div>
                                 </div>
 

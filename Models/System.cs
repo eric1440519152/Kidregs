@@ -15,10 +15,12 @@ namespace Kidregs.Models
         public string CopyrightMessage { get; set; }
         //域名
         public string Domain { get;set; }
+        public string reCAPTCHA_ServerUrl { get; set; }
         //reCAPTCHA ID
         public string reCAPTCHA_AppId { get; set; }
         //reCAPTCHA
         public string reCAPTCHA_Secret { get; set; }
+        public bool reCAPTCHASwitch { get; set; }
         public bool RegSwitch { get; set; }
     }
 }

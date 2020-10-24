@@ -97,6 +97,8 @@ namespace Kidregs.ViewModels.Home
         [Required]
         public string Hobbies { get; set; }
         public string Others { get; set; }
+
+        public string reCAPTCHA_Token { get; set; }
         public string errMessage { get; set; }
         public void From(KidsInfo kids)
         {

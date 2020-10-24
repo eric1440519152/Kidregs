@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyOffice.Interfaces;
+using Kidregs.Libraries.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Kidregs.Models;
@@ -15,12 +16,14 @@ namespace Kidregs.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly KidregsContext _kidregsContext;
+        private readonly ISystemOptions _systemOptions;
         private readonly IWordExportService _wordExportService;
 
-        public HomeController(ILogger<HomeController> logger,KidregsContext kidregsContext,IWordExportService wordExportService)
+        public HomeController(ILogger<HomeController> logger,KidregsContext kidregsContext,ISystemOptions systemOptions,IWordExportService wordExportService)
         {
             _logger = logger;
             _kidregsContext = kidregsContext;
+            _systemOptions = systemOptions;
             _wordExportService = wordExportService;
         }
 
@@ -46,6 +49,7 @@ namespace Kidregs.Controllers
 
         public IActionResult Reg(RegViewModel regView)
         {
+            ViewBag.SystemOptions = _systemOptions;
             var nationLists = _kidregsContext.NationList.ToList();
             ViewBag.nationLists = nationLists;
 

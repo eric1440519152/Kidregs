@@ -22,8 +22,10 @@ namespace Kidregs.Libraries.Class
             WelcomeMessage = System.WelcomeMessage;
             CopyrightMessage = System.CopyrightMessage;
             Domain = System.Domain;
+            reCAPTCHA_ServerUrl = System.reCAPTCHA_ServerUrl;
             reCAPTCHA_AppId = System.reCAPTCHA_AppId;
             reCAPTCHA_Secret = System.reCAPTCHA_Secret;
+            reCAPTCHASwitch = System.reCAPTCHASwitch;
             RegSwitch = System.RegSwitch;
         }
         //站点名称
@@ -34,10 +36,12 @@ namespace Kidregs.Libraries.Class
         public string CopyrightMessage { get; set; }
         //域名
         public string Domain { get;set; }
+        public string reCAPTCHA_ServerUrl { get; set; }
         //reCAPTCHA ID
         public string reCAPTCHA_AppId { get; set; }
         //reCAPTCHA
         public string reCAPTCHA_Secret { get; set; }
+        public bool reCAPTCHASwitch { get; set; }
         public bool RegSwitch { get; set; }
 
         public void UpdateOptions()
@@ -47,8 +51,10 @@ namespace Kidregs.Libraries.Class
             System.CopyrightMessage = CopyrightMessage;
             System.Domain = Domain;
             System.RegSwitch = RegSwitch;
+            System.reCAPTCHA_ServerUrl = reCAPTCHA_ServerUrl;
             System.reCAPTCHA_AppId = reCAPTCHA_AppId;
             System.reCAPTCHA_Secret = reCAPTCHA_Secret;
+            System.reCAPTCHASwitch = reCAPTCHASwitch;
             _kidregsContext.SaveChanges();
         }
 
@@ -59,8 +65,10 @@ namespace Kidregs.Libraries.Class
             WelcomeMessage = System.WelcomeMessage;
             CopyrightMessage = System.CopyrightMessage;
             Domain = System.Domain;
+            reCAPTCHA_ServerUrl = System.reCAPTCHA_ServerUrl;
             reCAPTCHA_AppId = System.reCAPTCHA_AppId;
             reCAPTCHA_Secret = System.reCAPTCHA_Secret;
+            reCAPTCHASwitch = System.reCAPTCHASwitch;
             RegSwitch = System.RegSwitch;
         }
     }

@@ -6,6 +6,10 @@ using System.Net;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using Kidregs.Libraries.Interface;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -16,13 +20,13 @@ namespace Kidregs.Libraries.Class
         private readonly string _serverUrl;
         private readonly string _serverKey;
 
-        public reCAPTCHA(string serverUrl, string serverKey)
+        public reCAPTCHA(ISystemOptions systemOptions)
         {
-            _serverUrl = serverUrl;
-            _serverKey = serverKey;
+            _serverUrl = systemOptions.reCAPTCHA_ServerUrl;
+            _serverKey = systemOptions.reCAPTCHA_Secret;
         }
 
-        public reCaptchaResult validate(string token,string ip = null)
+        public reCaptchaResult Validate(string token,string ip = null)
         {
             return Task.Run(() =>
             {
@@ -45,6 +49,32 @@ namespace Kidregs.Libraries.Class
         {
             public bool success;
             public string challenge_ts;
+        }
+    }
+
+    public class reCaptchaValid:IActionFilter 
+    {
+        private readonly reCAPTCHA _reCaptcha;
+        private readonly ISystemOptions _systemOptions;
+
+        public reCaptchaValid(reCAPTCHA reCaptcha,ISystemOptions systemOptions)
+        {
+            _reCaptcha = reCaptcha;
+            _systemOptions = systemOptions;
+        }
+        void IActionFilter.OnActionExecuted(ActionExecutedContext context)
+        {         
+        }
+
+        void IActionFilter.OnActionExecuting(ActionExecutingContext context)
+        {
+            var r = context.HttpContext.Request.Query.TryGetValue("reCAPTCHA_Token", out StringValues reCaptchaToken);
+            //两种情况直接跳转
+            //关闭验证码 或 验证通过
+            if(_systemOptions.reCAPTCHASwitch)
+                if (!_reCaptcha.Validate(reCaptchaToken).success)
+                    context.HttpContext.Response.Redirect("/Error/404"+ reCaptchaToken);
+            
         }
     }
     

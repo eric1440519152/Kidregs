@@ -92,6 +92,11 @@ namespace Kidregs
 
             //注入系统设置
             services.AddScoped<ISystemOptions, SystemOptions>();
+
+            //注入验证码依赖
+            services.AddScoped<reCAPTCHA>();
+            services.AddScoped<reCaptchaValid>();
+
             //注入Office生成依赖
             services.AddEasyOffice(new OfficeOptions());
         }
