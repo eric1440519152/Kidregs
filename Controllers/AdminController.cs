@@ -39,20 +39,12 @@ namespace Kidregs.Controllers
         public IActionResult Login()
         {
             ViewBag.SystemOptions = _systemOptions;
-            
-            //处理自动登录
-            var login = GetLoginCookie();
-            if (login != null)
-            {
-                //自动登录
-            }
-
-            return View();
+            return View(GetLoginCookie());
         }
 
         [HttpPost]
         [ServiceFilter(typeof(reCaptchaValid))]
-        public IActionResult Login(LoginViewModel login)
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
             if (login.Remember)
                 //设置Cookie
@@ -64,7 +56,13 @@ namespace Kidregs.Controllers
                 //强制注销登录并清除用户管理器Cookie
                 _signInManager.SignOutAsync();
             }
-            return Content(login.Remember.ToString());
+
+            if (await DoLoginIn(login))
+                //登陆完成，重定向
+                return RedirectToAction(nameof(Index));
+            else
+                //登陆失败 回到登陆页面
+                return RedirectToAction(nameof(Login));
         }
 
         public IActionResult Reset()
@@ -84,11 +82,11 @@ namespace Kidregs.Controllers
 
             return result.Succeeded;
         }
+
         private void SetLoginCookie(LoginViewModel login)
         {
-            var cryptPassword = SafeCrypto.Encrypt(login.Password);
-            SetCookies("Username", login.Username, 2880);
-            SetCookies("Keyword", cryptPassword, 2880);
+            var cryptUsername = SafeCrypto.Encrypt(login.Username);
+            SetCookies("Username", cryptUsername, 2880);
             SetCookies("Remember", login.Remember.ToString(), 2880);
         }
         private LoginViewModel GetLoginCookie()
@@ -98,8 +96,7 @@ namespace Kidregs.Controllers
 
             return new LoginViewModel
             {
-                Username = GetCookies("Username"),
-                Password = SafeCrypto.Decrypt(GetCookies("Keyword")),
+                Username = SafeCrypto.Decrypt(GetCookies("Username")),
                 Remember = GetCookies("Remember") == "True" ? true : false
             };
         }
@@ -107,7 +104,6 @@ namespace Kidregs.Controllers
         protected void DelLoginCookie()
         {
             DeleteCookies("Username");
-            DeleteCookies("Keyword");
             DeleteCookies("Remember");
         }
         protected void SetCookies(string name, string value, int minutes = 30)
