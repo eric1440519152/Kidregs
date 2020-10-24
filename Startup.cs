@@ -97,6 +97,9 @@ namespace Kidregs
             services.AddScoped<reCAPTCHA>();
             services.AddScoped<reCaptchaValid>();
 
+            //注入注册开关验证器
+            services.AddScoped<RegSwitch>();
+
             //注入Office生成依赖
             services.AddEasyOffice(new OfficeOptions());
         }

@@ -47,18 +47,23 @@ namespace Kidregs.Controllers
             }
             return View(collection);
         }
-
+        
         public IActionResult Reg(RegViewModel regView)
         {
-            ViewBag.SystemOptions = _systemOptions;
             var nationLists = _kidregsContext.NationList.ToList();
+
             ViewBag.nationLists = nationLists;
+            ViewBag.SystemOptions = _systemOptions;
+
+            if (!_systemOptions.RegSwitch)
+                regView.errMessage = "很抱歉，信息登记入口已关闭，您将无法登记信息";
 
             return View(regView);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ServiceFilter(typeof(RegSwitch))]
         [ServiceFilter(typeof(reCaptchaValid))]
         public async Task<IActionResult> RegInfo(RegViewModel kidsInfo)
         {
@@ -73,7 +78,6 @@ namespace Kidregs.Controllers
                     await _kidregsContext.SaveChangesAsync();
                     return View("Submitted");
                 }
-
             }
 
             return RedirectToAction(nameof(Reg), new RegViewModel
