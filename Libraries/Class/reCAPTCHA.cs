@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Kidregs.Libraries.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -68,13 +69,20 @@ namespace Kidregs.Libraries.Class
 
         void IActionFilter.OnActionExecuting(ActionExecutingContext context)
         {
-            var r = context.HttpContext.Request.Query.TryGetValue("reCAPTCHA_Token", out StringValues reCaptchaToken);
+            
+            var r = context.HttpContext.Request.Form.TryGetValue("reCAPTCHA_Token", out StringValues reCaptchaToken);
             //两种情况直接跳转
             //关闭验证码 或 验证通过
             if(_systemOptions.reCAPTCHASwitch)
                 if (!_reCaptcha.Validate(reCaptchaToken).success)
-                    context.HttpContext.Response.Redirect("/Error/404"+ reCaptchaToken);
-            
+                {
+                    //context.HttpContext.Response.Redirect("/Home/Reg?);
+                    context.Result =new RedirectToActionResult("Reg","Home",new
+                    {
+                        errMessage = "这位同学，你的想法很危险！绕过验证码不可取"
+                    });
+                }
+
         }
     }
     

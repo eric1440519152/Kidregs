@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyOffice.Interfaces;
+using Kidregs.Libraries.Class;
 using Kidregs.Libraries.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -58,6 +59,7 @@ namespace Kidregs.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ServiceFilter(typeof(reCaptchaValid))]
         public async Task<IActionResult> RegInfo(RegViewModel kidsInfo)
         {
 
