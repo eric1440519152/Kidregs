@@ -117,11 +117,15 @@ namespace Kidregs
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            //Https重定向
             app.UseHttpsRedirection();
+            //使得项目可以访问CSS JS等静态文件
             app.UseStaticFiles();
 
+            //将请求进行路由处理，获得端点
             app.UseRouting();
-
+            //完成身份验证
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

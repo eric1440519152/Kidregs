@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 
 namespace Kidregs.Controllers
 {
@@ -44,6 +45,7 @@ namespace Kidregs.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(reCaptchaValid))]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             if (login.Remember)
@@ -57,29 +59,67 @@ namespace Kidregs.Controllers
                 _signInManager.SignOutAsync();
             }
 
-            if (await DoLoginIn(login))
+            if (DoLoginIn(login))
+            {
                 //登陆完成，重定向
                 return RedirectToAction(nameof(Index));
+            }
             else
+            {
                 //登陆失败 回到登陆页面
                 return RedirectToAction(nameof(Login));
+            }
         }
 
         public IActionResult Reset()
         {
+            ViewBag.SystemOptions = _systemOptions;
             return View();
         }
 
-        //登录逻辑
-        private async Task<bool> DoLoginIn(LoginViewModel login)
+        [HttpPost]
+        [ServiceFilter(typeof(reCaptchaValid))]
+        [ValidateAntiForgeryToken]
+        public IActionResult Reset(ResetViewModel reset)
         {
-            var user = await _userManager.FindByNameAsync(login.Username);
+            if (reset.ResetCode == _options.Value.SuperPassword)
+            {
+                //通过校验，注册账号或重置密码
+                var admin =  _userManager.FindByNameAsync("admin").Result;
+
+                if (admin == null)
+                {
+                    var result = RegAdmin(reset.NewPassword);
+                    if (!result.Succeeded)
+                        return Content(result.Errors.First().Description);
+                }
+                else
+                {
+                    var result = ResetAdmin(admin,reset.NewPassword);
+                    if (!result.Succeeded)
+                        return Content(result.Errors.First().Description);
+                }
+
+                return RedirectToAction(nameof(Login));
+            }
+            else
+            {
+                //未通过校验，重定向至重置页面
+                return RedirectToAction(nameof(reset));
+            }
+        }
+
+        //登录逻辑
+        private bool DoLoginIn(LoginViewModel login)
+        {
+            var user = _userManager.FindByNameAsync(login.Username).Result;
 
             if (user == null)
+            {
                 return false;
+            }
 
-            var result = await _signInManager.PasswordSignInAsync(user, login.Password, login.Remember,false);
-
+            var result = _signInManager.PasswordSignInAsync(user, login.Password, login.Remember,false).Result;
             return result.Succeeded;
         }
 
@@ -99,6 +139,23 @@ namespace Kidregs.Controllers
                 Username = SafeCrypto.Decrypt(GetCookies("Username")),
                 Remember = GetCookies("Remember") == "True" ? true : false
             };
+        }
+
+
+        protected IdentityResult RegAdmin(string password)
+        {
+            var admin = new IdentityUser
+            {
+                UserName = "admin"
+            };
+
+            return _userManager.CreateAsync(admin, password).Result;
+        }
+
+        protected IdentityResult ResetAdmin(IdentityUser user, string password)
+        {
+            string code = _userManager.GeneratePasswordResetTokenAsync(user).Result;
+            return _userManager.ResetPasswordAsync(user, code, password).Result;
         }
 
         protected void DelLoginCookie()

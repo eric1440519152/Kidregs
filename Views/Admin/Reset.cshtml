@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@model Kidregs.ViewModels.Admin.ResetViewModel
+<!DOCTYPE html>
+<html lang="cn">
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - Responsive Bootstrap 4 Admin Dashboard</title>
@@ -39,24 +40,36 @@
                                     <p class="text-muted font-14">输入重设口令以重设内置超管账号密码. </p>
                                 </div>
 
-                                <form class="form-horizontal" action="#">
+                                <form class="form-horizontal" id="ResetForm" name="ResetForm" asp-action="Reset">
                                     <div class="form-group row">
                                         <div class="col-12">
-                                            <label for="password">密码</label>
-                                            <input class="form-control" type="password" required="" id="password" placeholder="请输入您的重设口令">
+                                            <label for="password">重设口令</label>
+                                            <input class="form-control" type="password" required id="ResetCode" asp-for="ResetCode" placeholder="请输入您的重设口令">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="col-12">
                                             <label for="password">密码</label>
-                                            <input class="form-control" type="password" required="" id="password" placeholder="请输入您新的管理员密码">
+                                            <input class="form-control" type="password" required id="NewPassword" asp-for="NewPassword" placeholder="请输入您新的管理员密码">
                                         </div>
                                     </div>
-
+                                    @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+                                    {
+                                        <div class="form-group">
+                                            <input id="reCAPTCHA_Token" asp-for="reCAPTCHA_Token" name="reCAPTCHA_Token" hidden required />
+                                        </div>
+                                    }
                                     <div class="form-group row text-center">
                                         <div class="col-12">
-                                            <button class="btn btn-block btn-gradient waves-effect waves-light" type="submit"> 重 设 </button>
+                                            @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+                                            {
+                                                <button class="btn btn-block btn-gradient waves-effect waves-light g-recaptcha" data-callback="reCaptchaCallback" data-sitekey="@ViewBag.SystemOptions.reCAPTCHA_AppId"> 重 设 </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-block btn-gradient waves-effect waves-light" type="submit"> 重 设 </button>
+                                            }
                                         </div>
                                     </div>
 
@@ -64,7 +77,7 @@
 
                                 <div class="row mt-4">
                                     <div class="col-sm-12 text-center">
-                                        <p class="text-muted mb-0">2020 &copy; 广西大学附属第二幼儿园</p>
+                                        <p class="text-muted mb-0">@ViewBag.SystemOptions.CopyrightMessage</p>
                                     </div>
                                 </div>
 
@@ -87,7 +100,18 @@
     <script src="/js/vendor.min.js"></script>
 
     <!-- App js -->
-    <script src="/js/app.min.js"></script>
+<script src="/js/app.min.js"></script>
 
+    @if (ViewBag.SystemOptions.reCAPTCHASwitch)
+    {
+        <script src="https://@ViewBag.SystemOptions.reCAPTCHA_ServerUrl/recaptcha/api.js"></script>
+        <script>
+            //谷歌验证码回调函数
+            function reCaptchaCallback(token) {
+                $("#reCAPTCHA_Token").val(token);
+                $("#ResetForm").submit();
+            }
+        </script>
+    }
 </body>
 </html>

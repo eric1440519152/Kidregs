@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Kidregs.Models;
 using Kidregs.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kidregs.Controllers
 {
@@ -28,6 +29,7 @@ namespace Kidregs.Controllers
             _wordExportService = wordExportService;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var list = _kidregsContext.KidsInfo.Where(s => s.Id == 1);
