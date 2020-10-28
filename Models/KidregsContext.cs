@@ -31,10 +31,7 @@ namespace Kidregs.Models
 
             modelBuilder.Entity<KidsInfo>();
 
-            modelBuilder.Entity<System>(entity =>
-            {
-                entity.HasNoKey();
-            });
+            modelBuilder.Entity<System>();
 
             OnModelCreatingPartial(modelBuilder);
         }

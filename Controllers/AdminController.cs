@@ -54,7 +54,7 @@ namespace Kidregs.Controllers
                 //删除表单Cookie
                 DelLoginCookie();
                 //强制注销登录并清除用户管理器Cookie
-                _signInManager.SignOutAsync();
+                await _signInManager.SignOutAsync();
             }
 
             if (DoLoginIn(login))
@@ -73,6 +73,12 @@ namespace Kidregs.Controllers
         {
             ViewBag.SystemOptions = _systemOptions;
             return View();
+        }
+
+        public async Task<IActionResult> Signout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpPost]
@@ -97,6 +103,8 @@ namespace Kidregs.Controllers
                     if (!result.Succeeded)
                         return Content(result.Errors.First().Description);
                 }
+
+                _signInManager.SignOutAsync();
 
                 return RedirectToAction(nameof(Login));
             }

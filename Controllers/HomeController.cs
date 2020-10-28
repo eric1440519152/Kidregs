@@ -28,10 +28,12 @@ namespace Kidregs.Controllers
             _systemOptions = systemOptions;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
-            return Content("");
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Dashboard");
+            else
+                return RedirectToAction("Reg");
         }
         
         public IActionResult Reg(RegViewModel regView)

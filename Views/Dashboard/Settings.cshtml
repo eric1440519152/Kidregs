@@ -1,0 +1,116 @@
+﻿@model System
+@{
+    ViewData["Title"] = "系统设置";
+    Layout = "_DashboardLayout";
+}
+@section PluginsCSS{
+    <!-- Jquery Toast css -->
+    <link href="/libs/switchery/switchery.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="wrapper">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">管理后台</a></li>
+                            <li class="breadcrumb-item active">系统设置</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">系统设置</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <form asp-action="Settings">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="card-box">
+                        <h4 class="header-title">站点设置</h4>
+                        <input id="id" asp-for="Id" name="id" hidden="hidden"/>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">网站名称</label>
+                            <input type="text" asp-for="SiteName" name="SiteName" id="SiteName" class="form-control">
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">站点网址</label>
+                            <input type="text" asp-for="Domain" name="Domain" id="Domain" class="form-control" />
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">版权文字</label>
+                            <input type="text" asp-for="CopyrightMessage" name="CopyrightMessage" id="CopyrightMessage" class="form-control" />
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">注意事项（为空不显示）</label>
+                            <textarea type="text" asp-for="WelcomeMessage" name="WelcomeMessage" id="WelcomeMessage" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">启用信息登记</label>
+                            <input type="checkbox" asp-for="RegSwitch" name="RegSwitch" id="RegSwitch" data-plugin="switchery" data-color="#f1b53d" />
+                        </div>
+                    </div>
+
+
+                </div> <!-- end col -->
+                <div class="col-md-6">
+
+                    <div class="card-box">
+                        <h4 class="header-title">reCAPTCHA</h4>
+
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">AppID</label>
+                            <input type="text" asp-for="reCAPTCHA_AppId" name="reCAPTCHA_AppId" id="reCAPTCHA_AppId"
+                                   class="form-control">
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">AppSerect</label>
+                            <input type="text" asp-for="reCAPTCHA_Secret" name="reCAPTCHA_Secret" id="reCAPTCHA_Secret"
+                                   class="form-control" />
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">服务器地址</label>
+                            <input type="text" asp-for="reCAPTCHA_ServerUrl" name="reCAPTCHA_ServerUrl" id="reCAPTCHA_ServerUrl" class="form-control" />
+                        </div>
+                        <div class="">
+                            <label class="mb-1 mt-3 text-muted">启用验证码</label>
+                            <input type="checkbox" asp-for="reCAPTCHASwitch" name="reCAPTCHASwitch" id="reCAPTCHASwitch" data-plugin="switchery" data-color="#f1b53d" />
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-gradient waves-light waves-effect width-md">保存</button>
+                        </div>
+                    </div>
+
+                </div> <!-- end col -->
+
+            </div>
+            <!-- end row -->
+        </form>
+
+
+    </div> <!-- end container -->
+</div>
+
+@section PluginsJS
+{
+    <script src="/libs/switchery/switchery.min.js"></script>
+}
+@section InitJS
+{
+    <script type="text/javascript">
+        $('[data-plugin="switchery"]').each(function (a, n) {
+            new Switchery($(this)[0], $(this).data());
+        })
+    </script>
+}
+@section CustomizeJS
+{
+
+}
+@section CustomizeCSS{
+
+}

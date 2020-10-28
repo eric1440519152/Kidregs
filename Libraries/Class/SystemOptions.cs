@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Drawing.ChartDrawing;
 using Kidregs.Libraries.Interface;
 using Kidregs.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,9 @@ namespace Kidregs.Libraries.Class
         public SystemOptions(KidregsContext kidregsContext)
         {
             _kidregsContext = kidregsContext;
-            System = _kidregsContext.System.First();
+            System = _kidregsContext.System
+                .AsNoTracking()
+                .First();
             SiteName = System.SiteName;
             WelcomeMessage = System.WelcomeMessage;
             CopyrightMessage = System.CopyrightMessage;
@@ -57,7 +60,6 @@ namespace Kidregs.Libraries.Class
             System.reCAPTCHASwitch = reCAPTCHASwitch;
             _kidregsContext.SaveChanges();
         }
-
         public void GetOptions()
         {
             System = _kidregsContext.System.First();

@@ -15,27 +15,31 @@
 <div class="wrapper" style="padding-top: 70px;">
     <div class="container-fluid">
         <!-- sample modal content -->
-        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="myModalLabel">填写须知</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h5>重要须知</h5>
-                        <p>您在填写前请仔细阅读以下内容，避免错误操作浪费您的宝贵时间</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary waves-effect waves-light"
-                                data-dismiss="modal">
-                            我已仔细阅读
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+        @if (ViewBag.SystemOptions.WelcomeMessage != null)
+        {
+            <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">填写须知</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h5>重要须知</h5>
+                            <p>您在填写前请仔细阅读以下内容，避免错误操作浪费您的宝贵时间</p>
+                            <p>@ViewBag.SystemOptions.WelcomeMessage</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary waves-effect waves-light"
+                                    data-dismiss="modal">
+                                我已仔细阅读
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        }
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -656,7 +660,7 @@
             });
         </script>
     }
-    else
+    else if(ViewBag.SystemOptions.WelcomeMessage != null)
     {
         <script type="text/javascript">
             $(function () {
