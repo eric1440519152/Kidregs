@@ -9,6 +9,7 @@ using Kidregs.Libraries.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Kidregs.Models;
+using Kidregs.ViewModels.Dashboard;
 using Kidregs.ViewModels.Home;
 using Microsoft.AspNetCore.Authorization;
 
@@ -19,35 +20,18 @@ namespace Kidregs.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly KidregsContext _kidregsContext;
         private readonly ISystemOptions _systemOptions;
-        private readonly IWordExportService _wordExportService;
 
-        public HomeController(ILogger<HomeController> logger,KidregsContext kidregsContext,ISystemOptions systemOptions,IWordExportService wordExportService)
+        public HomeController(ILogger<HomeController> logger,KidregsContext kidregsContext,ISystemOptions systemOptions)
         {
             _logger = logger;
             _kidregsContext = kidregsContext;
             _systemOptions = systemOptions;
-            _wordExportService = wordExportService;
         }
 
         [Authorize]
         public IActionResult Index()
         {
-            var list = _kidregsContext.KidsInfo.Where(s => s.Id == 1);
-            var collection = new List<KidsInfoViewModel>();
-            foreach (var s in list)
-            {
-                collection.Add(new KidsInfoViewModel
-                {
-                    Id = s.Id,
-                    Birth = s.KidBirth,
-                    FatherName = s.DadName,
-                    Gender = s.KidGender,
-                    IdCard = s.KidIdCard,
-                    MotherName = s.MunName,
-                    Name = s.KidName
-                });
-            }
-            return View(collection);
+            return Content("");
         }
         
         public IActionResult Reg(RegViewModel regView)
@@ -87,27 +71,7 @@ namespace Kidregs.Controllers
                 errMessage = "您的信息非法或该身份证号已被登记，请您核对后再提交"
             });
         }
-        /*
-        public async Task<IActionResult> Output(int id)
-        {
-            
-            var s = _kidregsContext.KidsInfo.First(e => e.Id == id);
-            var model = new KidsInfoViewModel
-            {
-                Id = s.Id,
-                Birth = s.Birth,
-                FatherName = s.FatherName,
-                Gender = (bool) s.Gender ? "男" : "女",
-                IdCard = s.IdCard,
-                MotherName = s.MotherName,
-                Name = s.Name
-            };
-            string template = @"Template\Output.docx";
-            var word = await _wordExportService.CreateFromTemplateAsync(template,model);
-            return File(word.WordBytes,"application/vnd.openxmlformats-officedocument.wordprocessingml.document",model.Name+"的档案.docx");
-            
-        }
-        */
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -4,14 +4,16 @@ using Kidregs.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kidregs.Migrations
 {
     [DbContext(typeof(KidregsContext))]
-    partial class KidregsContextModelSnapshot : ModelSnapshot
+    [Migration("20201026142837_BirthFix")]
+    partial class BirthFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,9 +104,6 @@ namespace Kidregs.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LikeAsk")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LikeComm")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LikeFood")

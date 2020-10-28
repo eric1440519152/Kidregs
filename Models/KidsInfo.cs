@@ -13,7 +13,7 @@ namespace Kidregs.Models
         public string KidHouseholdType { get; set; }
         public string KidRegRes { get; set; }
         public string KidDomicile { get; set; }
-        public DateTime? KidBirth { get; set; }
+        public DateTime KidBirth { get; set; }
         public string DadName { get; set; }
         public string DadWorkRes { get; set; }
         public string DadPhone { get; set; }
@@ -30,6 +30,7 @@ namespace Kidregs.Models
         public string IndieEat { get; set; }
         public string LikePlay { get; set; }
         public string LikeRead { get; set; }
+        public string LikeComm { get; set; }
         public string Nap { get; set; }
         public string Accommodating { get; set; }
         public string WashHand { get; set; }

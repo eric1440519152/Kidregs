@@ -39,10 +39,22 @@ namespace Kidregs.Libraries.Class
                 if (ip != null)
                     values["remoteip"] = ip;
 
-                var response = client.UploadValues("https://" + _serverUrl + "/recaptcha/api/siteverify ", values);
-                var res = JsonConvert.DeserializeObject<reCaptchaResult>(Encoding.Default.GetString(response));
+                try
+                {
+                    var response = client.UploadValues("https://" + _serverUrl + "/recaptcha/api/siteverify ", values);
+                    var res = JsonConvert.DeserializeObject<reCaptchaResult>(Encoding.Default.GetString(response));
+                    return res;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return new reCaptchaResult
+                    {
+                        success = false
+                    };
+                }
 
-                return res;
+
             }).Result;
         }
 

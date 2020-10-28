@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Template\" />
+    <Folder Include="wwwroot\temp\" />
   </ItemGroup>
 
   <ItemGroup>

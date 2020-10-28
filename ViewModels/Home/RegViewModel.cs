@@ -29,7 +29,7 @@ namespace Kidregs.ViewModels.Home
         [Required]
         public string KidDomicile { get; set; }
         [Required]
-        public DateTime? KidBirth { get; set; }
+        public DateTime KidBirth { get; set; }
         [Required]
         public string DadName { get; set; }
         [Required]
@@ -64,6 +64,8 @@ namespace Kidregs.ViewModels.Home
         public string LikePlay { get; set; }
         [Required]
         public string LikeRead { get; set; }
+        [Required]
+        public string LikeComm { get; set; }
         [Required]
         public string Nap { get; set; }
         [Required]
@@ -138,6 +140,7 @@ namespace Kidregs.ViewModels.Home
             SleepTime = kids.SleepTime;
             LikeFood = kids.LikeFood;
             Case = kids.Case;
+            LikeComm = kids.LikeComm;
             MealLength = kids.MealLength;
             SensibiligenFood = kids.SensibiligenFood;
             Fever = kids.Fever;
@@ -176,6 +179,7 @@ namespace Kidregs.ViewModels.Home
                 LikePlay = this.LikePlay,
                 LikeRead = this.LikeRead,
                 Nap = this.Nap,
+                LikeComm = LikeComm,
                 Accommodating = this.Accommodating,
                 WashHand = this.WashHand,
                 Dress = this.Dress,

@@ -358,14 +358,14 @@
                                             <div class="">
                                                 <div class="radio radio-info form-check-inline">
                                                     <input type="radio" id="LikeCommY" value="是"
-                                                           data-parsley-group="section-2" name="LikeComm" required
+                                                           data-parsley-group="section-2" asp-for="LikeComm" name="LikeComm" required
                                                            checked>
-                                                    <label for="inlineRadio1"> 是 </label>
+                                                    <label for="LikeCommY"> 是 </label>
                                                 </div>
                                                 <div class="radio radio-danger form-check-inline">
                                                     <input type="radio" id="LikeCommN" value="否"
-                                                           data-parsley-group="section-2" name="LikeComm">
-                                                    <label for="inlineRadio2"> 否 </label>
+                                                           data-parsley-group="section-2" asp-for="LikeComm" name="LikeComm">
+                                                    <label for="LikeCommN"> 否 </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -504,13 +504,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="control-label" for="GetUpTime">早上起床时间 *</label>
+                                            <label class="control-label" for="GetUpTime">早上起床时间（24小时制） *</label>
                                             <div class="input-group">
                                                 <input id="GetUpTime" asp-for="GetUpTime" id="GetUpTime" type="time" data-parsley-required-message="该字段是必填项" class="form-control" required>
                                             </div><!-- input-group -->
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label" for="SleepTime">晚上睡觉时间 *</label>
+                                            <label class="control-label" for="SleepTime">晚上睡觉时间（24小时制） *</label>
                                             <div class="input-group">
                                                 <input id="SleepTime" asp-for="SleepTime" id="GetUpTime" type="time" data-parsley-required-message="该字段是必填项" class="form-control" required>
                                             </div><!-- input-group -->
@@ -558,11 +558,13 @@
                                         <div class="form-group">
                                             <label class="control-label" for="Hobbies">在家时兴趣爱好有哪些 *</label>
                                             <div class="tags-default">
-                                                <input type="text" id="Hobbies" data-parsley-group="section-2" asp-for="Hobbies" data-parsley-required-message="该字段是必填项" name="Hobbies" value="样例标签1（请删除）,样例标签2（请删除）" data-role="tagsinput" placeholder="每项输入用回车分隔" required/>
+                                                <input type="text" id="Hobbies" data-parsley-group="section-2" asp-for="Hobbies" data-parsley-required-message="该字段是必填项" name="Hobbies" value="样例标签1（请删除）,样例标签2（请删除）" data-role="tagsinput" placeholder="每项输入用回车分隔" required />
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="form-group clearfix">
+                                        <label class="control-label ">(*) 必填 如为空请填写 无</label>
+                                    </div>
                                 </div>
                             </section>
                             <h3>其他情况</h3>
@@ -586,7 +588,7 @@
                                             <div class="form-group">
                                                 <label class="control-label" for="Others">请您单击完成人机验证</label>
                                                 <div class="g-recaptcha" data-sitekey="@ViewBag.SystemOptions.reCAPTCHA_AppId" data-callback="reCaptchaCallback"></div>
-                                                <input id="reCAPTCHA_Token" asp-for="reCAPTCHA_Token" data-parsley-group="section-3" name="reCAPTCHA_Token" data-parsley-required-message="请您单击完成人机验证" hidden required/>
+                                                <input id="reCAPTCHA_Token" asp-for="reCAPTCHA_Token" data-parsley-group="section-3" name="reCAPTCHA_Token" data-parsley-required-message="请您单击完成人机验证" hidden required />
                                             </div>
                                         }
                                     </div>

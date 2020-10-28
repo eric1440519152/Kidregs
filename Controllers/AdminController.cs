@@ -20,15 +20,13 @@ namespace Kidregs.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ISystemOptions _systemOptions;
-        private readonly reCAPTCHA _reCaptcha;
 
-        public AdminController(IOptions<KidregsOptions> options, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ISystemOptions systemOptions,reCAPTCHA reCaptcha)
+        public AdminController(IOptions<KidregsOptions> options, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ISystemOptions systemOptions)
         {
             _options = options;
             _userManager = userManager;
             _signInManager = signInManager;
             _systemOptions = systemOptions;
-            _reCaptcha = reCaptcha;
         }
 
         [Authorize]
