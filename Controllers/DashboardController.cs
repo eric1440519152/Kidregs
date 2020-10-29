@@ -11,6 +11,7 @@ using Kidregs.Libraries.Interface;
 using Kidregs.Models;
 using Kidregs.ViewModels.Dashboard;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -113,16 +114,18 @@ namespace Kidregs.Controllers
             var output = new OutputInfo();
             output.From(s);
 
-            string template = @"Template\Output.docx";
+            var template = Environment.CurrentDirectory + @"\Template\Output.docx";
             var word = _wordExportService.CreateFromTemplateAsync(template, output).Result;
+
             return File(word.WordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", s.KidName + "的档案.docx");
         }
 
         public IActionResult AllToDocx()
         {
-            var packageName = @"wwwroot\package\package.zip";
+            var packageName = Environment.CurrentDirectory + @"\wwwroot\package\package.zip";
             var list = _kidregsContext.KidsInfo.ToList();
             var outputlist = ConvertToOutputInfo(list);
+            var tempDirectory = Environment.CurrentDirectory + @"\wwwroot\temp\";
 
             if(FileSystem.FileExists(packageName))
                 FileSystem.DeleteFile(packageName);
@@ -133,7 +136,7 @@ namespace Kidregs.Controllers
             }
 
 
-            ZipFile.CreateFromDirectory(@"wwwroot\temp\", packageName);
+            ZipFile.CreateFromDirectory(tempDirectory, packageName);
 
             var buffer = FileSystem.ReadAllBytes(packageName);
             return File(buffer, "application/x-zip-compressed", "package.zip");
@@ -141,9 +144,11 @@ namespace Kidregs.Controllers
 
         private void SingleOutputFile(OutputInfo info)
         {
-            string template = @"Template\Output.docx";
+            var template =Environment.CurrentDirectory+ @"\Template\Output.docx";
+            var tempDirectory = Environment.CurrentDirectory + @"\wwwroot\temp\";
             var word = _wordExportService.CreateFromTemplateAsync(template, info).Result;
-            System.IO.File.WriteAllBytes(@"wwwroot\temp\" + info.KidName + info.KidIdCard.ToString() + "的档案.docx", word.WordBytes);
+
+            System.IO.File.WriteAllBytes(tempDirectory + info.KidName + info.KidIdCard.ToString() + "的档案.docx", word.WordBytes);
         }
 
         [HttpPost]

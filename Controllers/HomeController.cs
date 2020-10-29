@@ -46,6 +46,9 @@ namespace Kidregs.Controllers
             if (!_systemOptions.RegSwitch)
                 regView.errMessage = "很抱歉，信息登记入口已关闭，您将无法登记信息";
 
+            //数据预置
+            regView.KidBirth = DateTime.Now;
+
             return View(regView);
         }
 
@@ -55,6 +58,7 @@ namespace Kidregs.Controllers
         [ServiceFilter(typeof(reCaptchaValid))]
         public async Task<IActionResult> RegInfo(RegViewModel kidsInfo)
         {
+            ViewBag.SystemOptions = _systemOptions;
 
             if (ModelState.IsValid)
             {
