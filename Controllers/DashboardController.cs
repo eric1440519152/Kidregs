@@ -115,7 +115,7 @@ namespace Kidregs.Controllers
             var output = new OutputInfo();
             output.From(s);
 
-            var template = Environment.CurrentDirectory + @"\wwwroot\templateDocx\Output.docx";
+            var template = Environment.CurrentDirectory + @"/wwwroot/templateDocx/Output.docx";
             var word = _wordExportService.CreateFromTemplateAsync(template, output).Result;
 
             return File(word.WordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", s.KidName + "的档案.docx");
@@ -123,10 +123,10 @@ namespace Kidregs.Controllers
 
         public IActionResult AllToDocx()
         {
-            var packageName = Environment.CurrentDirectory + @"\wwwroot\package\package.zip";
+            var packageName = Environment.CurrentDirectory + @"/wwwroot/package/package.zip";
             var list = _kidregsContext.KidsInfo.ToList();
             var outputlist = ConvertToOutputInfo(list);
-            var tempDirectory = Environment.CurrentDirectory + @"\wwwroot\temp\";
+            var tempDirectory = Environment.CurrentDirectory + @"/wwwroot/temp/";
 
             if(FileSystem.FileExists(packageName))
                 FileSystem.DeleteFile(packageName);
@@ -145,10 +145,10 @@ namespace Kidregs.Controllers
 
         private void SingleOutputFile(OutputInfo info)
         {
-            Console.WriteLine(Environment.CurrentDirectory+ @"\wwwroot\templateDocx\Output.docx");
+            Console.WriteLine(Environment.CurrentDirectory+ @"/wwwroot/templateDocx/Output.docx");
 
-            var template =Environment.CurrentDirectory+ @"\wwwroot\templateDocx\Output.docx";
-            var tempDirectory = Environment.CurrentDirectory + @"\wwwroot\temp\";
+            var template =Environment.CurrentDirectory+ @"/wwwroot/templateDocx/Output.docx";
+            var tempDirectory = Environment.CurrentDirectory + @"/wwwroot/temp/";
             var word = _wordExportService.CreateFromTemplateAsync(template, info).Result;
 
             System.IO.File.WriteAllBytes(tempDirectory + info.KidName + info.KidIdCard.ToString() + "的档案.docx", word.WordBytes);

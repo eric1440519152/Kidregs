@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Template\Output.docx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EasyOffice" Version="1.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
@@ -24,13 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\templateDocx\" />
+    <Folder Include="Template\" />
     <Folder Include="wwwroot\package\" />
     <Folder Include="wwwroot\temp\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\templateDocx\Output.docx">
+    <None Update="Template\Output.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
