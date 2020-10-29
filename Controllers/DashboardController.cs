@@ -115,7 +115,7 @@ namespace Kidregs.Controllers
             var output = new OutputInfo();
             output.From(s);
 
-            var template = Environment.CurrentDirectory + @"\wwwroot\template\Output.docx";
+            var template = Environment.CurrentDirectory + @"\wwwroot\templateDocx\Output.docx";
             var word = _wordExportService.CreateFromTemplateAsync(template, output).Result;
 
             return File(word.WordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", s.KidName + "的档案.docx");
@@ -145,9 +145,9 @@ namespace Kidregs.Controllers
 
         private void SingleOutputFile(OutputInfo info)
         {
-            Console.WriteLine(Environment.CurrentDirectory+ @"\wwwroot\template\Output.docx");
+            Console.WriteLine(Environment.CurrentDirectory+ @"\wwwroot\templateDocx\Output.docx");
 
-            var template =Environment.CurrentDirectory+ @"\wwwroot\template\Output.docx";
+            var template =Environment.CurrentDirectory+ @"\wwwroot\templateDocx\Output.docx";
             var tempDirectory = Environment.CurrentDirectory + @"\wwwroot\temp\";
             var word = _wordExportService.CreateFromTemplateAsync(template, info).Result;
 
