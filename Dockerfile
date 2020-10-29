@@ -2,5 +2,5 @@
 # final stage/image
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 WORKDIR /app
-COPY --from=build /app .
+COPY /out .
 ENTRYPOINT ["dotnet", "Kidregs.dll"]
