@@ -134,6 +134,8 @@ namespace Kidregs
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseStatusCodePagesWithRedirects("/Home/Error/{0}");
         }
     }
 }
