@@ -21,7 +21,7 @@ namespace Kidregs.Controllers
         private readonly KidregsContext _kidregsContext;
         private readonly ISystemOptions _systemOptions;
 
-        public HomeController(ILogger<HomeController> logger,KidregsContext kidregsContext,ISystemOptions systemOptions)
+        public HomeController(ILogger<HomeController> logger, KidregsContext kidregsContext, ISystemOptions systemOptions)
         {
             _logger = logger;
             _kidregsContext = kidregsContext;
@@ -35,7 +35,7 @@ namespace Kidregs.Controllers
             else
                 return RedirectToAction("Reg");
         }
-        
+
         public IActionResult Reg(RegViewModel regView)
         {
             var nationLists = _kidregsContext.NationList.ToList();
@@ -62,7 +62,7 @@ namespace Kidregs.Controllers
 
             if (ModelState.IsValid)
             {
-                int isRegistered =  _kidregsContext.KidsInfo.Where(e => e.KidIdCard == kidsInfo.KidIdCard).Count();
+                int isRegistered = _kidregsContext.KidsInfo.Where(e => e.KidIdCard == kidsInfo.KidIdCard).Count();
                 //return Content(isRegistered.ToString());
                 if (isRegistered == 0)
                 {
@@ -77,10 +77,11 @@ namespace Kidregs.Controllers
                 errMessage = "您的信息非法或该身份证号已被登记，请您核对后再提交"
             });
         }
-        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error(int errorCode)
+        [Route("Home/Error/{errorCode}")]
+        public IActionResult Error(int errorCode = 500)
         {
             ViewBag.SystemOptions = _systemOptions;
             ViewBag.errorCode = errorCode;
