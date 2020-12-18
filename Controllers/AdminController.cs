@@ -146,8 +146,6 @@ namespace Kidregs.Controllers
                 Remember = GetCookies("Remember") == "True" ? true : false
             };
         }
-
-
         protected IdentityResult RegAdmin(string password)
         {
             var admin = new IdentityUser
